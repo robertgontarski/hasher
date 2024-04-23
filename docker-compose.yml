@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: golang
+    build: .
+    volumes:
+      - .:/var/www
+    command: make run
+    ports:
+      - "8080:8080" #http
+      - "8089:8089" #grpc
+    networks:
+      - hasher
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hasher
+      MYSQL_USER: hasher
+      MYSQL_PASSWORD: hasher
+    ports:
+      - "3306:3306"
+    networks:
+      - hasher
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - hasher
+
+networks:
+  hasher:
+    name: hasher

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package hasher;
+
+option go_package = "github.com/robertgontarski/hasher/proto";
+
+service HasherService {
+  rpc HashEmail(HashEmailRequest) returns (HashResponse) {};
+  rpc HashPhone(HashPhoneRequest) returns (HashResponse) {};
+  rpc HashName(HashNameRequest) returns (HashResponse) {};
+}
+
+message HashEmailRequest {
+  int32 id = 1;
+  string address = 2;
+}
+
+message HashPhoneRequest {
+  int32 id = 1;
+  string number = 2;
+  string country_code = 3;
+}
+
+message HashNameRequest {
+  int32 id = 1;
+  string name = 2;
+  string surname = 3;
+}
+
+message HashResponse {
+  uint32 status = 1;
+  string message = 2;
+  bytes data = 3;
+}
